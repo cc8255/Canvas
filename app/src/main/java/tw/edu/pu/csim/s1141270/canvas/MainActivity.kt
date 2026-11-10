@@ -29,7 +29,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
-import kotlinx.coroutines.time.delay
+import kotlinx.coroutines.delay
 import tw.edu.pu.csim.s1141270.canvas.ui.theme.CanvasTheme
 
 class MainActivity : ComponentActivity() {
@@ -57,9 +57,15 @@ fun CanvasScreen(modifier: Modifier = Modifier) {
     var gameOver by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         while (!gameOver) {
-            kotlinx.coroutines.delay(1000L)
+            delay(1000L)
             minionX += 10
             minionY += 10
+            if (CanvasW > 0f && CanvasH > 0f) {
+                if (minionX > CanvasW|| minionY > CanvasH) {
+                    minionX = 0f
+                    minionY = 0f
+                }
+            }
         }
     }
     Box(
@@ -97,7 +103,6 @@ fun CanvasScreen(modifier: Modifier = Modifier) {
             translate(minionX, minionY) {
                 drawImage(minionsImage)
             }
-
 
         }
 
